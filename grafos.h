@@ -2,11 +2,13 @@
 #define GRAFOS_H
 
 typedef struct g{
-    int numV;
-    int **pos;
+    int numVertices;
+    int numArestas;
+    double **vertices;
 }Grafo;
 //funções
 
-Grafo* leGrafo(const char *nome_arquivo);
+Grafo* lerGrafo(const char *nome_arquivo);
+void printGrafo(Grafo *g, int precisao);
 
 #endif

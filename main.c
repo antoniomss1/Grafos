@@ -5,8 +5,8 @@
 
 int main(){
     Grafo *G;
-    G = leGrafo("graph_1.txt");
-
+    G = lerGrafo("graph_1.txt");
+    printGrafo(G, 0);
     // fgets(linha , 15,graph);
     // fscanf(graph, "%c", linha);
     
