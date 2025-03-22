@@ -1,10 +1,6 @@
 #ifndef GRAFOS_H
 #define GRAFOS_H
 
-typedef struct{
-    double peso;
-}Aresta;
-
 typedef struct g{
     int numVertices;
     int numArestas;

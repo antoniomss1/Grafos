@@ -1,7 +1,13 @@
 #include "grafos.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "auxiliares/listaD.c"
+#include "auxiliares/listaD.h"
+
+void descolorirGrafo(Grafo *g){
+    for(int i=0; i<g->numVertices; i++){
+        g->cores[i] = 'a';
+    }
+}
 
 void BFSearch(Grafo *g){
     
@@ -18,32 +24,53 @@ void BFSearch(Grafo *g){
     //     			visitar (v,w) 
     //     			marcar w 
     //     			inserir w em Q 
-    //     		senão se w  Q então 
+    //     		senão se w pertence à Q então 
     //     			visitar (v,w)   /*w alcançado por outro caminho*/        
     //     		/*senão já processou w e portanto (w,v)*/ 
     //     	/*fim_para*/  
     //         retirar v de Q 
     //         /*fim_enquanto*/
-    //     Vou implementar usando uma lista para os marcados, já que não penso em uma forma tão rápida de implementar o TAD e adicionar cores, 
-    //     preguiça por hoje pra fazer isso
     
     //usarei como cores 'm' para marcado e 'a' para não marcado
     if(g==NULL){return;}
     Lista fila;definir(&fila);tipo_elemnto valor;valor.chave=0;
-    Lista marcados;definir(&marcados);tipo_elemnto elemMarc;elemMarc.chave=0;
+    tipo_elemnto aux;
 
     printf ("[");
+    g->cores[valor.chave] = 'm';//marca s
     inserir_inicio(&fila, valor);
+
+    printf ("%d", valor.chave);
     
     while(vazia(&fila)!=1){
+        valor.chave = fila.head->info.chave;//valor é o primeiro valor da fila
+        // printf ("no while\n");
         for(int j=0; j<g->numVertices; j++){//para cada w na lista de adjascência de v
-            if(g->vertices[valor.chave][j] !=0){
-                
+
+            if(g->vertices[valor.chave][j] !=0){//os não nulos são os da lista de adjacência
+                if(g->cores[j] != 'm'){//se ele é não marcado
+                    // printf ("etrou\n");
+                    // printf (" (%d, %d);", valor.chave+1, j+1);//visita v,w
+                    g->cores[j] = 'm';
+                    printf (", %d", j);
+                    aux.chave = j;
+                    inserir_final(&fila, aux);
+                }
+                //a parte de baixo é necessária para o caso de fazer a visita (printf)
+                // else if(buscar(&fila, j)!=NULL){
+                //     // printf ("ELSE\n");
+                //     // printf (" (%d, %d);", valor.chave+1, j+1); 
+                // }
+                // printf ("dentro\n");
+            
             }
         }
+        remover_inicio(&fila);
     }
-
+    descolorirGrafo(g);
+    printf ("]\n");
 }
+
 
 Grafo* lerGrafo(const char* nomeArquivo){
     
