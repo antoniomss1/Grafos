@@ -2,10 +2,9 @@
 #include "listaD.h"
 
 void definir(Lista *L){
-
     L->head = NULL;
+}
 
-} //ok ok2
 void destruir(Lista *L){
     No *p;
     while (L->head != NULL){

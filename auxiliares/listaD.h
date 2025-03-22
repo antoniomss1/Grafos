@@ -1,4 +1,4 @@
-//Tad listta estatica encadeada
+
 #ifndef LISTAD_H
 #define LISTAD_H
 

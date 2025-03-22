@@ -9,7 +9,7 @@ void descolorirGrafo(Grafo *g){
     }
 }
 
-void BFSearch(Grafo *g){
+void BFSearch(Grafo *g){//imprime a ordem de travessia no grafo
     
     // o Algoritmo que vimos:
     //     Dado G(V,A), conexo: 
@@ -57,6 +57,7 @@ void BFSearch(Grafo *g){
                     inserir_final(&fila, aux);
                 }
                 //a parte de baixo é necessária para o caso de fazer a visita (printf)
+
                 // else if(buscar(&fila, j)!=NULL){
                 //     // printf ("ELSE\n");
                 //     // printf (" (%d, %d);", valor.chave+1, j+1); 

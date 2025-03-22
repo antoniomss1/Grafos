@@ -7,8 +7,8 @@ typedef struct g{
     double **vertices;
     char *cores;
 }Grafo;
-//funções
 
+//funções
 Grafo* lerGrafo(const char *nome_arquivo);
 void printGrafo(Grafo *g, int precisao);
 
