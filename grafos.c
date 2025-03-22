@@ -72,6 +72,31 @@ void BFSearch(Grafo *g){//imprime a ordem de travessia no grafo
     printf ("]\n");
 }
 
+void DFS(Grafo *g, int vertice) {
+    if (g == NULL) return;
+
+    printf(" %d", vertice);
+    g->cores[vertice] = 'm'; 
+
+    for (int j = 0; j < g->numVertices; j++) {
+        if (g->vertices[vertice][j] != 0 && g->cores[j] != 'm') {  
+            DFS(g, j); 
+        }
+    }
+}
+
+void DFSearch(Grafo *g) {
+    if (g == NULL) return;
+
+    descolorirGrafo(g); 
+
+    printf("[");
+    DFS(g, 0); 
+    printf(" ]\n");
+
+    descolorirGrafo(g);
+}
+
 
 Grafo* lerGrafo(const char* nomeArquivo){
     

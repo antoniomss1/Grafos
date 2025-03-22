@@ -17,5 +17,7 @@ void freeGrafo(Grafo *g);//função para desalocar espaços do grafo FALTA IMPLE
 //como as buscas não pedem um resultado específico, será impresso a ordem de visita no grafo partindo sempre do 0
 void BFSearch(Grafo *g);
 
+void DFSearch(Grafo *g);
+
 void printCores(Grafo *g);
 #endif
