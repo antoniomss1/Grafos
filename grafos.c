@@ -1,12 +1,99 @@
 #include "grafos.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #include "auxiliares/listaD.h"
 
 void descolorirGrafo(Grafo *g){
     for(int i=0; i<g->numVertices; i++){
         g->cores[i] = 'a';
     }
+}
+
+int addEdgeList(Lista *L, int x, int y, double peso){
+    tipo_elemnto aux;
+    aux.peso = peso;aux.x = x; aux.y = y;
+    inserir_ordenada_peso(L, aux);
+}
+
+void addAresta(Grafo *g, int x, int y, double peso){
+    g->vertices[x][y] = peso;
+    g->vertices[y][x] = peso;    
+}
+Grafo* criarGrafo(int numV){
+    Grafo *p = (Grafo *)malloc(sizeof(Grafo));
+    double **matr = (double **)malloc(sizeof(double * )*numV);
+    for(int i=0; i<numV; i++){
+        matr[i] = (double *)calloc(numV, sizeof(double ));
+    }
+    
+    char *cors = (char*)malloc(sizeof(char)*numV);
+    for(int i=0; i<numV; i++){
+        cors[i]='a';
+    }
+
+    p->vertices = matr;
+    p->cores = cors;
+    p->numArestas = 0;
+    p->numVertices = numV;
+    return p;
+}
+
+int escolheAresta(Lista *arestas, Grafo *tree){
+    int x = arestas->head->info.x;
+    int y = arestas->head->info.y;
+    double peso = arestas->head->info.peso;
+
+    tree->vertices[x][y] = peso;
+    tree->vertices[y][x] = peso;
+
+    remover_inicio(arestas);
+    return x;
+}
+
+Grafo* prim(Grafo* grafo) {
+    int numV = grafo->numVertices;
+    int pai[numV];   // Armazena a MST resultante
+    int chave[numV]; // Chaves usadas para escolher arestas de menor peso
+    int visitado[numV]; // Indica se um vértice já está na MST
+
+    for (int i = 0; i < numV; i++) {
+        chave[i] = INT_MAX; // Inicializa todas as chaves com infinito
+        visitado[i] = 0;    // Nenhum vértice foi incluído na MST
+    }
+    
+    chave[0] = 0;   // Começamos pelo vértice 0
+    pai[0] = -1;    // O primeiro nó não tem pai
+
+    for (int count = 0; count < numV - 1; count++) {
+        int u = -1, min = INT_MAX;
+
+        // Encontra o vértice com a menor chave ainda não incluído na MST
+        for (int v = 0; v < numV; v++) {
+            if (!visitado[v] && chave[v] < min) {
+                min = chave[v];
+                u = v;
+            }
+        }
+
+        visitado[u] = 1; // Inclui u na MST
+
+        // Atualiza os valores das chaves dos vértices adjacentes a u
+        for (int v = 0; v < numV; v++) {
+            if (grafo->vertices[u][v] && !visitado[v] && grafo->vertices[u][v] < chave[v]) {
+                pai[v] = u;
+                chave[v] = grafo->vertices[u][v];
+            }
+        }
+    }
+
+    
+    Grafo *tree = criarGrafo(grafo->numVertices);
+    for (int i = 1; i < numV; i++) {
+        addAresta(tree, pai[i], i, grafo->vertices[i][pai[i]]);
+        // printf("%d - %d (Peso: %.1lf)\n", pai[i], i, grafo->vertices[i][pai[i]]);
+    }
+    return tree;
 }
 
 void BFSearch(Grafo *g){//imprime a ordem de travessia no grafo
@@ -128,11 +215,13 @@ Grafo* lerGrafo(const char* nomeArquivo){
             // printf("Formato 'x y z' detectado: x=%d, y=%d, z=%lf\n", x, y, z);
             Verts = (double **)malloc(numV * sizeof(double *));
             for (int i = 0; i < numV; i++) {
-                Verts[i] = (double *)malloc(numV * sizeof(double));
-                for (int j = 0; j < numV; j++) {
-                    Verts[i][j] = 0.0;
+                // Verts[i] = (double *)malloc(numV * sizeof(double));
+                Verts[i] = (double *)calloc(numV, sizeof(double));
+                
+                // for (int j = 0; j < numV; j++) {
+                //     Verts[i][j] = 0.0;
 
-                }
+                // }
             }
             Verts[x][y] = z;
             Verts[y][x] = z;
@@ -142,10 +231,12 @@ Grafo* lerGrafo(const char* nomeArquivo){
             // printf("Formato 'x y' detectado: x=%d, y=%d\n", x, y);
             Verts = (double **)malloc(numV * sizeof(double *));
             for (int i = 0; i < numV; i++) {
-                Verts[i] = (double *)malloc(numV * sizeof(double));
-                for (int j = 0; j < numV; j++) {
-                    Verts[i][j] = 0.0;
-                }
+                // Verts[i] = (double *)malloc(numV * sizeof(double));
+                Verts[i] = (double *)calloc(numV, sizeof(double));
+                
+                // for (int j = 0; j < numV; j++) {
+                //     Verts[i][j] = 0.0;
+                // }
             }
             Verts[x][y] = z;
             Verts[y][x] = z;

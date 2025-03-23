@@ -120,7 +120,7 @@ void esvaziar(Lista *L){
     }
 
 }  
-int inserir_ordenada(Lista *L, tipo_elemnto opc){
+int inserir_ordenada(Lista *L, tipo_elemnto opc){//do menor pro maior
 
     No *q, *p, *k;
     if(vazia(L)){
@@ -143,6 +143,29 @@ int inserir_ordenada(Lista *L, tipo_elemnto opc){
     return 1;
 
 }
+
+int inserir_ordenada_peso(Lista *L, tipo_elemnto opc){//do menor pro maior
+
+    No *q, *p, *k;
+    if(vazia(L)){
+        return (inserir_inicio(L, opc));
+    }
+
+    //busca
+    for(q=NULL, p=L->head; p!=NULL && opc.peso >p->info.peso; q=p, p=p->prox){ }
+
+    if (q==NULL){
+        return (inserir_inicio(L, opc));
+    }
+
+    k=(No*)malloc(sizeof(No));
+    if(!k)  return 0;
+    k->info = opc;
+    k->prox = p;
+    q->prox = k;
+    return 1;
+}
+
 int remover_final(Lista *L){
     No *p, *k;
     if(vazia(L))

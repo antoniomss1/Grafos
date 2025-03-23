@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../grafos.h"
 
 #define max 10
 #define NIL -1
@@ -12,6 +13,8 @@
 /*tipo do dado*/
 typedef struct {
     int chave;
+    double peso;
+    int x, y;
     //outras informações
 }tipo_elemnto;
 
@@ -34,6 +37,7 @@ void esvaziar           (Lista *L);
 int inserir_inicio      (Lista *L, tipo_elemnto opc);
 int inserir_final       (Lista *L, tipo_elemnto opc);
 int inserir_ordenada    (Lista *L, tipo_elemnto opc);
+int inserir_ordenada_peso(Lista *L, tipo_elemnto opc);
 int remover_inicio      (Lista *L);
 int remover_final       (Lista *L); 
 int remover             (Lista *L, int chave);
