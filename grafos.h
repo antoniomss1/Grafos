@@ -21,6 +21,6 @@ void printCores(Grafo *g);
 
 Grafo* prim(Grafo* grafo);
 
-Grafo* Prim(Grafo *g);
+Grafo *FloydW(Grafo *g);
 
 #endif

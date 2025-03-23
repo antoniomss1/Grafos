@@ -313,3 +313,35 @@ void printCores(Grafo *g){
         printf ("%3c ", g->cores[i]);
     }printf ("\n");
 }
+
+void inicializarDist(int numV, double **grafo, double **dist) {
+    for (int i = 0; i < numV; i++) {
+        for (int j = 0; j < numV; j++) {
+            if (i == j) {
+                dist[i][j] = 0;  // Distância de um nó para ele mesmo é 0
+            } else if (grafo[i][j] != 0) {
+                dist[i][j] = grafo[i][j];  // Se há aresta, usa o peso dela
+            } else {
+                dist[i][j] = INT_MAX;  // Se não há aresta, define como infinito
+            }
+        }
+    }
+}
+
+Grafo *FloydW(Grafo *g){
+    Grafo *dist;
+    dist = criarGrafo(g->numVertices); 
+    inicializarDist(g->numVertices, g->vertices, dist->vertices);
+
+    int n = g->numVertices;
+    for(int k=0; k<n; k++){
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                if(dist->vertices[i][j] > dist->vertices[i][k] + dist->vertices[k][j])
+                dist->vertices[i][j] = dist->vertices[i][k] + dist->vertices[k][j];
+            }
+        }
+    }
+
+    return dist;
+}
